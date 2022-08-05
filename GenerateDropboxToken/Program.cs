@@ -44,8 +44,6 @@ namespace GenerateDropboxToken
             Thread.Sleep(200000);
             chrome.FindElement(By.Id("generate-token-button")).Click();
             Thread.Sleep(150000);
-
-
             WebElement l = (WebElement)chrome.FindElement(By.Id("generated-token"));
             // enter texts
             l.SendKeys("Selenium");
