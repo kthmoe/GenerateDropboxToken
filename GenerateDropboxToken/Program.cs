@@ -69,7 +69,7 @@ namespace GenerateDropboxToken
             SqlCommand myCommand = new SqlCommand("UPDATE P_Resource SET DropboxAPIToken = @token,UpdateDateTime=@datetiem", Connection);
             Connection.Open();
             myCommand.Parameters.AddWithValue("@token", val);
-            myCommand.Parameters.AddWithValue("@token", datetime);
+            myCommand.Parameters.AddWithValue("@datetiem", datetime);
             myCommand.ExecuteNonQuery();
             Connection.Close();
         }
