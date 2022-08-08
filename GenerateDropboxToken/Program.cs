@@ -63,11 +63,13 @@ namespace GenerateDropboxToken
         }
         static void UpdateToken(String val)
         {
+            DateTime datetime= DateTime.Now;
             SqlConnection Connection = new SqlConnection();
             Connection.ConnectionString = "Data Source=203.137.52.23;Initial Catalog=CapitalSMS;Persist Security Info=True;User ID=sa;Password=admin123456!;Connection Timeout=60000";
-            SqlCommand myCommand = new SqlCommand("UPDATE P_Resource SET DropboxAPIToken = @token", Connection);
+            SqlCommand myCommand = new SqlCommand("UPDATE P_Resource SET DropboxAPIToken = @token,UpdateDateTime=@datetiem", Connection);
             Connection.Open();
             myCommand.Parameters.AddWithValue("@token", val);
+            myCommand.Parameters.AddWithValue("@token", datetime);
             myCommand.ExecuteNonQuery();
             Connection.Close();
         }
