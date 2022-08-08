@@ -53,7 +53,7 @@ namespace GenerateDropboxToken
             // get value attribute with getAttribute()
             String val = l.GetAttribute("value");
             String path = @"C:\Backup\Dbpath.ini";
-            System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=","["+ val+"]"));
+            System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val+"]"));
             Console.Write("Entered text is: " + val);
 
 
