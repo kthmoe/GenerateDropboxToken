@@ -3,6 +3,8 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,6 +19,7 @@ namespace GenerateDropboxToken
         static void Main(string[] args)
         {
             Login();
+
         }
 
        
@@ -35,9 +38,8 @@ namespace GenerateDropboxToken
             chrome.Url = url;
             Thread.Sleep(10000);
             string username = "office@capital-knowledge.co.jp"; string password = "capitaloo13";
-           
-            Thread.Sleep(10000);
-            //// method Keys.chord            
+
+            Thread.Sleep(10000);          
             chrome.FindElement(By.Name("login_email")).SendKeys(username);
             Thread.Sleep(10000);
             chrome.FindElement(By.Name("login_password")).SendKeys(password);
@@ -53,10 +55,22 @@ namespace GenerateDropboxToken
             // get value attribute with getAttribute()
             String val = l.GetAttribute("value");
             String path = @"C:\Backup\Dbpath.ini";
-            System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val+"]"));
-            Console.Write("Entered text is: " + val);
-
-
+            System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val + "]"));
+            //Console.Write("Entered text is: " + val);
+            chrome.Close();
+            UpdateToken(val);
+            //Application.Exit();
         }
+        static void UpdateToken(String val)
+        {
+            SqlConnection Connection = new SqlConnection();
+            Connection.ConnectionString = "Data Source=203.137.52.23;Initial Catalog=CapitalSMS;Persist Security Info=True;User ID=sa;Password=admin123456!;Connection Timeout=60000";
+            SqlCommand myCommand = new SqlCommand("UPDATE P_Resource SET DropboxAPIToken = @token", Connection);
+            Connection.Open();
+            myCommand.Parameters.AddWithValue("@token", val);
+            myCommand.ExecuteNonQuery();
+            Connection.Close();
+        }
+
     }
 }
