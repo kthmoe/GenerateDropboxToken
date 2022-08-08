@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,7 +40,7 @@ namespace GenerateDropboxToken
             Thread.Sleep(10000);
             string username = "office@capital-knowledge.co.jp"; string password = "capitaloo13";
 
-            Thread.Sleep(10000);          
+            Thread.Sleep(10000);
             chrome.FindElement(By.Name("login_email")).SendKeys(username);
             Thread.Sleep(10000);
             chrome.FindElement(By.Name("login_password")).SendKeys(password);
@@ -55,7 +56,10 @@ namespace GenerateDropboxToken
             // get value attribute with getAttribute()
             String val = l.GetAttribute("value");
             String path = @"C:\Backup\Dbpath.ini";
-            System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val + "]"));
+            //System.IO.File.WriteAllText(path, System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val + "]"));
+            string text= System.IO.File.ReadAllText(path).Replace("TokenKey=", "TokenKey=[" + val + "] ");
+            string[] token = text.Split(' ');
+            System.IO.File.WriteAllText(path, token[0]);
             //Console.Write("Entered text is: " + val);
             chrome.Close();
             UpdateToken(val);
